@@ -458,32 +458,82 @@ section {
 }
 
 /* SKILLS & PROJECTS & CERTIFICATIONS - 3D CARDS */
+/* SKILLS, PROJECTS, & CERTIFICATIONS - FUTURISTIC BENTO GRID */
 .skill-grid,
 .project-list,
 .cert-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
+    width: 100%;
+}
+
+/* ─── Skills Bento Layout ─── */
+.skill-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    .tilt-card:nth-child(1) { grid-column: span 2; }
+    .tilt-card:nth-child(2) { grid-column: span 1; grid-row: span 2; }
+    .tilt-card:nth-child(3) { grid-column: span 1; }
+    .tilt-card:nth-child(4) { grid-column: span 1; }
+}
+
+/* ─── Projects Bento Layout ─── */
+.project-list {
+    grid-template-columns: repeat(3, 1fr);
+
+    .tilt-card:nth-child(1) { grid-column: span 1; grid-row: span 2; }
+    .tilt-card:nth-child(2) { grid-column: span 2; }
+    .tilt-card:nth-child(3) { grid-column: span 1; }
+    .tilt-card:nth-child(4) { grid-column: span 1; }
+}
+
+/* ─── Certifications Bento Layout ─── */
+.cert-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    .tilt-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .tilt-card:nth-child(2) { grid-column: span 1; }
+    .tilt-card:nth-child(3) { grid-column: span 1; }
+    .tilt-card:nth-child(4) { grid-column: span 3; min-height: 180px; }
+}
+
+@media (max-width: 992px) {
+    .skill-grid,
+    .project-list,
+    .cert-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        
+        .tilt-card {
+            grid-column: auto !important;
+            grid-row: auto !important;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .skill-grid,
+    .project-list,
+    .cert-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 .tilt-card {
-    /* Base State: Stone/Glass Block */
-    background: var(--ui-gunmetal);
-    /* Solid Navy */
-    backdrop-filter: none;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    min-height: 260px;
-    padding: 2.5rem;
+    /* Base State: Glassmorphism Card */
+    background: rgba(17, 34, 64, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 204, 255, 0.1);
+    border-radius: 24px;
+    min-height: 250px;
+    padding: 2.2rem;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     transform-style: preserve-3d;
-    /* Key for interaction */
-    /* Transition is handled by JS for move, but we set base css for other props */
-    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
 
     cursor: pointer;
     overflow: hidden;
@@ -495,26 +545,26 @@ section {
     }
 
     h3 {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
         transform: translateZ(20px);
-        /* Parallax pop */
         transition: color 0.3s ease;
     }
 
     .card-inner p,
     .card-desc {
         transform: translateZ(10px);
-        font-size: 1rem;
+        font-size: 0.95rem;
         line-height: 1.6;
         color: var(--text-secondary);
+        margin-top: 0.5rem;
     }
 
     .tags span {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: var(--accent-bronze);
-        border: 1px solid rgba(166, 124, 82, 0.3);
+        color: #00ccff;
+        border: 1px solid rgba(0, 204, 255, 0.35);
         padding: 4px 12px;
         border-radius: 4px;
         display: inline-block;
@@ -523,10 +573,10 @@ section {
 
     /* CERTIFICATE SPECIFIC */
     &.cert-box {
-        background: var(--ui-gunmetal);
-        /* Solid, no glass */
-        backdrop-filter: none;
-        border-color: rgba(255, 255, 255, 0.03);
+        background: rgba(17, 34, 64, 0.35);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-color: rgba(0, 204, 255, 0.1);
 
         .cert-type {
             display: block;
@@ -561,7 +611,7 @@ section {
                     content: '•';
                     position: absolute;
                     left: 0;
-                    color: var(--accent-gold);
+                    color: #00ccff;
                 }
             }
         }
@@ -569,21 +619,24 @@ section {
 
     /* HOVER STATE (Assisted by JS tilt) */
     &:hover {
-        /* Deeper shadow + Gold tint */
+        /* Deeper glow + Cyan tint */
         box-shadow:
             0 30px 60px -10px rgba(0, 0, 0, 0.8),
-            inset 0 0 0 1px rgba(212, 175, 55, 0.1);
+            inset 0 0 0 1px rgba(0, 204, 255, 0.2);
 
-        border-color: rgba(212, 175, 55, 0.3);
+        border-color: rgba(0, 204, 255, 0.4);
+        background: rgba(17, 34, 64, 0.5);
 
         /* Internal color shifts */
         h3 {
-            color: var(--accent-gold);
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
         }
 
         .tags span {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
+            color: #00ccff;
+            border-color: #00ccff;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.2);
         }
     }
 }
@@ -710,6 +763,123 @@ section {
     }
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   PLANET APPROACH INDICATOR
+   A subtle glow overlay that appears when close to a planet
+───────────────────────────────────────────────────────────────── */
+#planet-indicator {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-apple);
+
+    &.visible { opacity: 1; }
+
+    .planet-name {
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-align: center;
+        animation: floatHint 3s ease-in-out infinite;
+    }
+}
+
+@keyframes floatHint {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ENHANCED HOVER ANIMATIONS
+───────────────────────────────────────────────────────────────── */
+
+/* Hero buttons — neon shimmer on hover */
+#hero .hero-buttons button {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 60%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0s;
+    }
+
+    &:hover::before {
+        left: 200%;
+        transition: left 0.5s var(--ease-samsung);
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-3px) scale(1.02);
+        border-color: rgba(255, 255, 255, 0.35);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                    0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    &:active {
+        transform: translateY(-1px) scale(0.99);
+        transition: all 0.1s ease;
+    }
+}
+
+/* Tilt cards — deeper glow + border pulse on hover */
+.tilt-card {
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+            rgba(212, 175, 55, 0.06) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    &:hover::after { opacity: 1; }
+}
+
+/* Timeline dots — animated glow on hover */
+#education .timeline .timeline-item:hover::before {
+    background:   var(--accent-gold);
+    box-shadow:   0 0 0 4px rgba(212, 175, 55, 0.15),
+                  0 0 15px var(--accent-gold);
+    transform:    scale(1.3);
+}
+
+/* Connect boxes — icon bounce micro-animation */
+#contact .connect-box .icon {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+}
+
+#contact .connect-box:hover .icon {
+    transform: translateY(-5px) scale(1.18) rotate(-5deg);
+    color: #00ccff;
+}
+
+/* Custom scrollbar — gold accent */
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg,
+        rgba(212, 175, 55, 0.4),
+        rgba(166, 124, 82, 0.3));
+}
+
+/* Cursor glow custom property tracker (updated via JS) */
+:root {
+    --cursor-x: 50vw;
+    --cursor-y: 50vh;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     #content {
@@ -739,5 +909,97 @@ section {
 
     .timeline {
         padding-left: 2rem;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   HIGH-TECH AUDIO CONTROLLER (Space Ambient Synth)
+───────────────────────────────────────────────────────────────── */
+#sound-toggle {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1.2rem;
+    background: rgba(10, 25, 47, 0.45);
+    border: 1px solid rgba(0, 204, 255, 0.25);
+    border-radius: 40px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.4s var(--ease-apple);
+    pointer-events: auto;
+
+    /* Tech brackets on hover */
+    &:hover {
+        border-color: rgba(0, 204, 255, 0.6);
+        box-shadow: 0 10px 30px rgba(0, 204, 255, 0.15);
+        transform: translateY(-2px);
+
+        .sound-text {
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+        }
+    }
+
+    .sound-waves {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        width: 18px;
+        height: 14px;
+
+        span {
+            display: block;
+            width: 2px;
+            height: 2px;
+            background-color: #00ccff;
+            border-radius: 1px;
+            transition: height 0.3s ease;
+        }
+    }
+
+    .sound-text {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        transition: color 0.3s ease;
+    }
+
+    /* Active Animation state (when playing) */
+    &:not(.sound-muted) {
+        border-color: rgba(0, 255, 204, 0.35);
+
+        .sound-waves span {
+            background-color: #00ffcc;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+            animation: soundWavePulse 1.2s infinite ease-in-out;
+            
+            &:nth-child(1) { height: 100%; animation-delay: 0.1s; }
+            &:nth-child(2) { height: 60%;  animation-delay: 0.3s; }
+            &:nth-child(3) { height: 85%;  animation-delay: 0.5s; }
+            &:nth-child(4) { height: 40%;  animation-delay: 0.2s; }
+        }
+    }
+}
+
+@keyframes soundWavePulse {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.2); }
+}
+
+@media (max-width: 768px) {
+    #sound-toggle {
+        bottom: 1.5rem;
+        left: 1.5rem;
+        padding: 0.6rem 1rem;
     }
 }

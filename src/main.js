@@ -6,6 +6,7 @@ import Lenis from '@studio-freight/lenis';
 import LockerScene from './components/LockerScene';
 import SolarSystem from './components/SolarSystem'; // Switched from WorldScene
 import { getStarTexture } from './utils/StarTexture';
+import SpaceAmbientSynth from './utils/AudioSynth';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Initialize App
 class App {
     constructor() {
+        this.synth = new SpaceAmbientSynth();
         this.init();
     }
 
@@ -43,6 +45,11 @@ class App {
             smoothTouch: false,
             touchMultiplier: 2,
         });
+
+        // Keep GSAP ScrollTrigger in sync with Lenis smooth scroll
+        this.lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.lagSmoothing(0);
+
         // Stop scrolling during intro
         this.lenis.stop();
     }
@@ -122,6 +129,16 @@ class App {
         // Enable Scrolling
         this.lenis.start();
 
+        // Play space ambient music on click (user interaction has happened)
+        if (this.synth && !this.synth.isPlaying) {
+            this.synth.play();
+            const soundToggle = document.getElementById('sound-toggle');
+            if (soundToggle) {
+                soundToggle.classList.remove('sound-muted');
+                soundToggle.querySelector('.sound-text').textContent = 'SOUND ON';
+            }
+        }
+
         // Reveal Main Content Immediately
         const content = document.getElementById('content');
         if (content) {
@@ -140,6 +157,30 @@ class App {
         // Intro Complete Event
         window.addEventListener('intro-complete', () => {
             this.onIntroComplete();
+        });
+
+        // Ambient Audio Controller Binding
+        const soundToggle = document.getElementById('sound-toggle');
+        if (soundToggle) {
+            soundToggle.addEventListener('click', () => {
+                if (this.synth) {
+                    if (this.synth.isPlaying) {
+                        this.synth.pause();
+                        soundToggle.classList.add('sound-muted');
+                        soundToggle.querySelector('.sound-text').textContent = 'SOUND OFF';
+                    } else {
+                        this.synth.play();
+                        soundToggle.classList.remove('sound-muted');
+                        soundToggle.querySelector('.sound-text').textContent = 'SOUND ON';
+                    }
+                }
+            });
+        }
+
+        // Cursor glow: track mouse position as CSS custom props
+        window.addEventListener('pointermove', (e) => {
+            document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
         });
 
         // Contact Form Event
@@ -218,28 +259,34 @@ class App {
         }
     }
 
-    onIntroComplete() {
-        // Enable Scrolling
-        this.lenis.start();
-
-        // Reveal Main Content Immediately
-        const content = document.getElementById('content');
-        if (content) {
-            content.classList.remove('content-hidden');
-            content.classList.add('content-visible');
-        }
-
-        // Enable Solar System Updates (Planets) but NO Camera Reset
-        if (this.solarSystem) {
-            this.solarSystem.visible = true;
-            this.solarSystem.group.visible = true;
-        }
-    }
-
     onResize() {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    _updatePlanetIndicator() {
+        if (!this.solarSystem) return;
+        const indicator = document.getElementById('planet-indicator');
+        if (!indicator) return;
+
+        const camZ = this.camera.position.z;
+        let nearest = null;
+        let minDist = Infinity;
+
+        this.solarSystem.planets.forEach(p => {
+            // Planet world Z = group.position.z + planetGroup.position.z
+            const pWorldZ = this.solarSystem.group.position.z + p.zPos;
+            const dist = Math.abs(camZ - pWorldZ);
+            if (dist < minDist) { minDist = dist; nearest = p; }
+        });
+
+        if (nearest && minDist < 60) {
+            indicator.querySelector('.planet-name').textContent = `⬤ Approaching ${nearest.name}`;
+            indicator.classList.add('visible');
+        } else {
+            indicator.classList.remove('visible');
+        }
     }
 
     tick(time) {
@@ -248,16 +295,21 @@ class App {
         const elapsedTime = this.clock.getElapsedTime();
 
         if (this.lockerScene && this.lockerScene.isOpen === false) {
-            // Intro phase
+            // Intro phase — animate the ENTER button scene
+            if (this.lockerScene.update) {
+                this.lockerScene.update(elapsedTime);
+            }
         } else if (this.solarSystem && this.solarSystem.visible) {
             // Update Solar System
-            const scroll = this.lenis ? this.lenis.animatedScroll : 0;
+            const scroll    = this.lenis ? this.lenis.animatedScroll : 0;
             const maxScroll = this.lenis ? document.body.scrollHeight - window.innerHeight : 1;
 
             this.solarSystem.update(elapsedTime, scroll, maxScroll);
 
+            // Planet proximity indicator
+            this._updatePlanetIndicator();
+
             // Dynamic Content Reveal Logic
-            // If we are deep in space (near end of scroll), maybe ensure content overlay is visible
             if (scroll > 100) {
                 const content = document.getElementById('content');
                 if (content && !content.classList.contains('content-visible')) {
