@@ -70,6 +70,7 @@ const PLANET_CFG = {
 export default class Planet {
     constructor(group, config) {
         this.group     = group;
+        this.config    = config;
         this.name      = config.name;
         this.size      = config.size;
         this.zPos      = config.z;
@@ -356,6 +357,34 @@ export default class Planet {
             const base = this._hovered ? 3.0 : 1.8;
             this.atmosphere.material.uniforms.uIntensity.value =
                 base + 0.15 * Math.sin(time * 1.4 + this.zPos * 0.01);
+        }
+    }
+
+    resize(isMobile, depthScale, widthScale, sizeScale) {
+        // Adjust planetGroup position based on depthScale (stagger spacing)
+        this.planetGroup.position.set(0, 0, this.zPos * depthScale);
+        
+        // Update mesh scale based on sizeScale
+        if (this.mesh) {
+            this.mesh.scale.setScalar(sizeScale);
+        }
+        
+        // Update atmosphere scale if exists
+        if (this.atmosphere) {
+            this.atmosphere.scale.setScalar(sizeScale);
+            if (this.atmosphere.material?.uniforms?.uSunPos) {
+                this.atmosphere.material.uniforms.uSunPos.value.set(0, 0, -this.zPos * depthScale);
+            }
+        }
+        
+        // Update glow ring scale
+        if (this._glowRing) {
+            this._glowRing.scale.setScalar(sizeScale);
+        }
+
+        // Update label position and scale
+        if (this.label) {
+            this.label.position.set(this.size * sizeScale + 2.2, this.size * sizeScale * 0.8, 0);
         }
     }
 }

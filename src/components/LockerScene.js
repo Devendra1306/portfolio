@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
+import spaceAudio from '../utils/SpaceAudio.js';
 
 // ─── Particle ring geometry (Three.js) ──────────────────────────────────────
 function createOrbitRing(radius, count, color) {
@@ -127,16 +128,16 @@ export default class LockerScene {
             position: 'relative', display: 'flex',
             flexDirection: 'column', gap: '1.5rem',
             width: '420px', padding: '2.5rem',
-            background: 'rgba(7, 18, 36, 0.55)',
-            backdropFilter: 'blur(25px)',
-            WebkitBackdropFilter: 'blur(25px)',
-            border: '1px solid rgba(0, 204, 255, 0.25)',
+            background: 'rgba(5, 5, 7, 0.65)',
+            backdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: 'blur(30px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
             borderRadius: '24px',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.6), inset 0 0 20px rgba(0,204,255,0.05)',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02)',
             pointerEvents: 'auto', cursor: 'pointer',
             transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
             opacity: '0',
-            transform: 'scale(0.9)',
+            transform: 'scale(0.95)',
         });
 
         // Laser Scanner line
@@ -153,67 +154,65 @@ export default class LockerScene {
         const led = document.createElement('div');
         led.className = 'status-led';
         status.appendChild(led);
-        const statusText = document.createTextNode(' STATUS: ACTIVE');
+        const statusText = document.createTextNode(' INITIALIZING...');
         status.appendChild(statusText);
 
         const ver = document.createElement('div');
-        ver.textContent = '[ SYS_GATEWAY v3.1 ]';
+        ver.textContent = '[ COCKPIT_BOOT v4.0 ]';
 
         header.appendChild(status);
         header.appendChild(ver);
         this._magWrap.appendChild(header);
 
-        // Diagnostics display
-        const diagnostics = document.createElement('div');
-        diagnostics.className = 'gateway-diagnostics';
+        // Terminal Output Box
+        const terminal = document.createElement('div');
+        terminal.id = 'boot-terminal';
+        terminal.className = 'gateway-diagnostics';
+        this._magWrap.appendChild(terminal);
 
-        const lines = [
-            { label: 'PROPULSION_DRIVE', val: 'ION_THRUSTERS' },
-            { label: 'COORDINATES_LOCK', val: '54.09.81.2' },
-            { label: 'TRANSITION_STATUS', val: 'READY', highlight: true }
-        ];
+        // Progress Bar
+        const progressWrap = document.createElement('div');
+        progressWrap.className = 'boot-progress-wrap';
 
-        lines.forEach(line => {
-            const row = document.createElement('div');
-            row.className = 'diag-line';
-            row.style.opacity = '0'; // will fade in via GSAP
-            
-            const lbl = document.createElement('span');
-            lbl.textContent = `> ${line.label}:`;
-            
-            const val = document.createElement('span');
-            val.textContent = line.val;
-            if (line.highlight) {
-                val.className = 'diag-ok';
-            }
-            
-            row.appendChild(lbl);
-            row.appendChild(val);
-            diagnostics.appendChild(row);
-        });
+        const pct = document.createElement('div');
+        pct.id = 'boot-pct';
+        pct.className = 'boot-percentage';
+        pct.textContent = '0%';
+        progressWrap.appendChild(pct);
 
-        this._magWrap.appendChild(diagnostics);
+        const barBg = document.createElement('div');
+        barBg.className = 'boot-bar-bg';
+        const barFill = document.createElement('div');
+        barFill.id = 'boot-fill';
+        barFill.className = 'boot-bar-fill';
+        barBg.appendChild(barFill);
+        progressWrap.appendChild(barBg);
 
-        // Button pill (inside the card)
+        this._magWrap.appendChild(progressWrap);
+
+        // Button pill (inside the card) - Hidden initially
         this._btn = document.createElement('button');
         this._btn.id = 'enter-btn';
         this._btn.textContent = 'ENTER SPACE';
         Object.assign(this._btn.style, {
             position: 'relative', zIndex: '2',
-            background: 'linear-gradient(135deg, rgba(0,204,255,0.12) 0%, rgba(136,68,255,0.12) 100%)',
-            border: '1px solid rgba(0,204,255,0.4)',
+            background: 'linear-gradient(135deg, rgba(0,207,255,0.12) 0%, rgba(139,92,246,0.12) 100%)',
+            border: '1px solid rgba(0,207,255,0.4)',
             borderRadius: '50px',
             color: '#fff',
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'Space Grotesk', sans-serif",
             fontWeight: '700',
             fontSize: '1.05rem',
             letterSpacing: '0.35em',
             padding: '1rem 2.2rem',
             cursor: 'pointer',
             outline: 'none',
-            textShadow: '0 0 10px rgba(0,204,255,0.5)',
+            textShadow: '0 0 10px rgba(0,207,255,0.5)',
             overflow: 'hidden',
             textTransform: 'uppercase',
+            display: 'none', // hidden by default
+            opacity: '0',
+            transform: 'scale(0.9)',
             transition: 'box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease',
         });
 
@@ -227,14 +226,15 @@ export default class LockerScene {
 
         this._magWrap.appendChild(this._btn);
 
-        // Scroll hint
+        // Scroll hint - Hidden initially
         this._hint = document.createElement('p');
-        this._hint.textContent = '✦ CLICK TO ENGAGE SYSTEM ✦';
+        this._hint.textContent = '✦ CLICK TO LAUNCH MISSION ✦';
         Object.assign(this._hint.style, {
             marginTop: '0.5rem', width: '100%', textAlign: 'center',
-            fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem',
-            letterSpacing: '0.25em', color: 'rgba(255,255,255,0.3)',
-            textTransform: 'uppercase',
+            fontFamily: "'Share Tech Mono', monospace", fontSize: '0.65rem',
+            letterSpacing: '0.25em', color: 'rgba(0,255,200,0.7)',
+            textTransform: 'uppercase', opacity: '0',
+            transition: 'opacity 0.3s ease',
         });
         this._magWrap.appendChild(this._hint);
 
@@ -355,16 +355,86 @@ export default class LockerScene {
         `;
         document.head.appendChild(style);
 
-        // GSAP reveal sequence (reveal gateway card & stagger diagnostics)
+        // GSAP reveal sequence (reveal gateway card & trigger console boot)
         const tl = gsap.timeline({ delay: 0.4 });
-        tl.to(this._magWrap, { opacity: 1, scale: 1, duration: 1.0, ease: 'back.out(1.1)' });
-        
-        const diagRows = this._magWrap.querySelectorAll('.diag-line');
-        tl.fromTo(diagRows, 
-            { opacity: 0, x: -10 },
-            { opacity: 1, x: 0, duration: 0.4, stagger: 0.15, ease: 'power2.out' },
-            '-=0.4'
-        );
+        tl.to(this._magWrap, { 
+            opacity: 1, 
+            scale: 1, 
+            duration: 0.8, 
+            ease: 'power3.out',
+            onComplete: () => {
+                this.startBootSequence();
+            }
+        });
+    }
+
+    startBootSequence() {
+        const terminal = document.getElementById('boot-terminal');
+        const pctEl = document.getElementById('boot-pct');
+        const fillEl = document.getElementById('boot-fill');
+        const btn = this._btn;
+        const hint = this._hint;
+
+        if (!terminal || !pctEl || !fillEl) return;
+
+        const bootLines = [
+            'INITIALIZING SOLAR CORE...',
+            'LOADING NEURAL ENGINES...',
+            'CALIBRATING ORBITAL TRAJECTORIES...',
+            'ALIGNING COMMS TRANSPONDERS...',
+            'ALL SYSTEMS GO // HUD ONLINE'
+        ];
+
+        let lineIdx = 0;
+        const writeLine = () => {
+            if (lineIdx >= bootLines.length) return;
+            const line = document.createElement('div');
+            line.className = 'boot-line';
+            line.textContent = '> ' + bootLines[lineIdx];
+            
+            if (lineIdx === bootLines.length - 1) {
+                line.style.color = '#00ffc8';
+            } else {
+                line.style.color = '#ffaa00';
+            }
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+            lineIdx++;
+            
+            setTimeout(writeLine, 600);
+        };
+
+        setTimeout(writeLine, 200);
+
+        const counter = { val: 0 };
+        gsap.to(counter, {
+            val: 100,
+            duration: 3.2,
+            ease: 'none',
+            onUpdate: () => {
+                const currentVal = Math.floor(counter.val);
+                pctEl.textContent = `${currentVal}%`;
+                fillEl.style.width = `${currentVal}%`;
+            },
+            onComplete: () => {
+                pctEl.textContent = 'SYSTEM READY';
+                pctEl.style.color = '#00ffc8';
+                
+                gsap.to(pctEl, { opacity: 0.4, repeat: -1, yoyo: true, duration: 0.6 });
+
+                btn.style.display = 'block';
+                btn.style.pointerEvents = 'auto';
+                gsap.to(btn, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'back.out(1.15)',
+                    onComplete: () => {
+                        gsap.to(hint, { opacity: 0.8, duration: 0.4 });
+                    }
+                });
+            }
+        });
     }
 
 
@@ -476,6 +546,12 @@ export default class LockerScene {
         this.isOpen = true;
         document.body.style.cursor = 'default';
 
+        // Play warp launch sound and start ambient space hum
+        try {
+            spaceAudio.playLaunchWarpSound();
+            spaceAudio.startAmbient();
+        } catch (e) { }
+
         // DOM gateway card exit - slide up slightly and fade
         gsap.timeline()
             .to(this._magWrap, { y: -30, scale: 0.95, opacity: 0, duration: 0.55, ease: 'power3.in' })
@@ -535,5 +611,9 @@ export default class LockerScene {
 
         // Gentle float of entire group
         this.lockerGroup.position.y = Math.sin(time * 0.7) * 0.08;
+    }
+
+    resize(isMobile) {
+        // Safe resize placeholder
     }
 }

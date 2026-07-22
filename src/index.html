@@ -6,16 +6,31 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ibba Devendra Sagar | Immersive Space Portfolio</title>
+    <meta name="description" content="Ibba Devendra Sagar — AI Undergraduate, Full-Stack Developer, and Agentic AI builder. Explore projects, skills, and certifications." />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;700&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
+    <script>
+        window.addEventListener('error', function(e) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:10px;z-index:99999;font-family:monospace;font-size:12px;word-break:break-all';
+            errorDiv.textContent = 'Error: ' + e.message + ' at ' + e.filename + ':' + e.lineno;
+            document.body.appendChild(errorDiv);
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:orange;color:white;padding:10px;z-index:99999;font-family:monospace;font-size:12px;word-break:break-all';
+            errorDiv.textContent = 'Rejection: ' + e.reason;
+            document.body.appendChild(errorDiv);
+        });
+    </script>
 </head>
 
 <body>
-    <!-- The 3D Canvas -->
+    <!-- The 3D Canvas (UNTOUCHED) -->
     <canvas id="gl"></canvas>
 
     <!-- DOM overlay -->
@@ -44,25 +59,90 @@
         <!-- Main Content (Scroll container) -->
         <div id="content" class="content-hidden">
 
+            <!-- Corner squares for the full content shell -->
+            <span class="corner top-left"></span>
+            <span class="corner top-right"></span>
+
+            <header id="nav-header">
+                <nav class="nav-container">
+                    <a href="#hero" class="nav-logo" data-magnetic>IDS</a>
+                    <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <div class="nav-links">
+                        <a href="#about" class="nav-link" data-magnetic>About</a>
+                        <a href="#education" class="nav-link" data-magnetic>Education</a>
+                        <a href="#skills" class="nav-link" data-magnetic>Skills</a>
+                        <a href="#projects" class="nav-link" data-magnetic>Projects</a>
+                        <a href="#certifications" class="nav-link" data-magnetic>Certifications</a>
+                        <a href="#contact" class="nav-link" data-magnetic>Connect</a>
+                    </div>
+                </nav>
+            </header>
+
             <!-- Massive Spacer for Solar System Journey -->
             <div style="height: 400vh;"></div>
 
-            <!-- Hero Section -->
-            <section id="hero">
-                <h1>Ibba Devendra Sagar</h1>
-                <p class="subtitle">Artificial Intelligence Undergraduate | Full-Stack Developer | Agentic AI Enthusiast | Automation Builder</p>
-                <p class="tagline">Building AI-powered applications, intelligent agents, and scalable web solutions that solve real-world problems.</p>
-                <div class="hero-buttons">
-                    <button data-magnetic onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">View
-                        Projects</button>
-                    <button data-magnetic onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact
-                        Me</button>
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- HERO SECTION                                 -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="hero" class="corner-squares">
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <!-- Gooey SVG blob field — atmospheric depth behind title -->
+                <div class="blob-field" aria-hidden="true">
+                    <svg class="blob-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="gooey">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
+                                <feColorMatrix in="blur" mode="matrix"
+                                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -9"
+                                    result="gooey" />
+                            </filter>
+                        </defs>
+                        <g filter="url(#gooey)">
+                            <circle class="blob blob-a" cx="180" cy="200" r="90" />
+                            <circle class="blob blob-b" cx="310" cy="180" r="70" />
+                            <circle class="blob blob-c" cx="420" cy="220" r="55" />
+                            <circle class="blob blob-d" cx="260" cy="270" r="60" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="hud-status-line">
+                    <span class="hud-led"></span>
+                    <span>SYS_STATUS: ACTIVE</span>
+                    <span class="hud-divider">//</span>
+                    <span>COORD_LOCK: 16.71.81.09</span>
+                    <span class="hud-divider">//</span>
+                    <span>SECTOR: ORBIT_MAIN</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="hero-word" data-reveal="fade-up" data-reveal-delay="0">IBBA</span>
+                    <span class="hero-word" data-reveal="fade-up" data-reveal-delay="0.08">DEVENDRA</span>
+                    <span class="hero-word" data-reveal="fade-up" data-reveal-delay="0.16">SAGAR</span>
+                </h1>
+                <p class="subtitle" data-reveal="fade-up" data-reveal-delay="0.3">Artificial Intelligence Undergraduate · Full-Stack Developer · Agentic AI Enthusiast</p>
+                <p class="tagline" data-reveal="fade-up" data-reveal-delay="0.42">Building AI-powered applications, intelligent agents, and scalable web solutions that solve real-world problems.</p>
+                <div class="hero-buttons" data-reveal="fade-up" data-reveal-delay="0.54">
+                    <button class="btn-primary" data-magnetic onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">View Projects</button>
+                    <button class="btn-secondary" data-magnetic onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
                 </div>
             </section>
 
-            <!-- About Section -->
-            <section id="about">
-                <h2>About Me</h2>
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- ABOUT SECTION                               -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="about" class="corner-squares">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <h2 data-motion-text="words">About Me</h2>
 
                 <!-- Profile Photo Container -->
                 <div class="profile-container" data-tilt>
@@ -72,232 +152,405 @@
                     </div>
                 </div>
 
-                <div class="bio">
-                    <p>I am Ibba Devendra Sagar, a B.Tech Artificial Intelligence student at Sri Vasavi Engineering College (JNTUK). I am passionate about Artificial Intelligence, Agentic AI, Full-Stack Development, Cloud Technologies, and Workflow Automation.</p>
-                    <p>I enjoy building AI-powered applications, intelligent agents, and scalable web solutions that solve real-world problems. I am enthusiastic about exploring emerging technologies, staying updated with the latest industry trends, and continuously learning new tools and frameworks. My interests include AI Agents, Large Language Models (LLMs), Automation Systems, Cloud Computing, and Software Engineering.</p>
-                </div>
-            </section>
-
-            <!-- Education (Timeline) -->
-            <section id="education">
-                <h2>Education</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h3>Bachelor of Technology (B.Tech) – Artificial Intelligence</h3>
-                        <span class="institution">Sri Vasavi Engineering College (JNTUK)</span>
-                        <div class="details">
-                            <span class="year">2023 – 2027</span>
-                            <span class="score">CGPA: 7.52</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>Board of Intermediate Education</h3>
-                        <span class="institution">Sri Chaitanya Junior College</span>
-                        <div class="details">
-                            <span class="score">Percentage: 86.4%</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>Board of Secondary Education</h3>
-                        <span class="institution">Ushodaya High School</span>
-                        <div class="details">
-                            <span class="score">GPA: 8.2</span>
-                        </div>
+                <!-- Right column: bio text -->
+                <div class="about-right">
+                    <div class="bio" data-reveal="blur-in">
+                        <p>I am Ibba Devendra Sagar, a B.Tech Artificial Intelligence student at Sri Vasavi Engineering College (JNTUK). I am passionate about Artificial Intelligence, Agentic AI, Full-Stack Development, Cloud Technologies, and Workflow Automation.</p>
+                        <p>I enjoy building AI-powered applications, intelligent agents, and scalable web solutions that solve real-world problems. My interests include AI Agents, Large Language Models, Automation Systems, Cloud Computing, and Software Engineering.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Skills -->
-            <section id="skills">
-                <h2>Skills</h2>
-                <div class="skill-grid bento-grid">
-                    <!-- Tilt Card: Programming Languages -->
-                    <div class="tilt-card bento-card span-2-col" data-tilt>
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- EDUCATION — SCROLL PROGRESS TIMELINE        -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="education" class="corner-squares">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <h2 data-motion-text="words">Education</h2>
+                <div class="tl-shell" data-scroll-timeline>
+                    <!-- Base guide line -->
+                    <div class="tl-line-base">
+                        <div class="tl-line-fill" id="edu-line-fill"></div>
+                    </div>
+
+                    <div class="tl-items">
+                        <div class="tl-item" data-tl-item data-reveal="slide-left">
+                            <div class="tl-dot"></div>
+                            <div class="tl-card">
+                                <span class="tl-year">2023 – 2027</span>
+                                <h3>B.Tech — Artificial Intelligence</h3>
+                                <span class="institution">Sri Vasavi Engineering College (JNTUK)</span>
+                                <div class="details">
+                                    <span class="score">CGPA: 7.52</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tl-item" data-tl-item data-reveal="slide-left">
+                            <div class="tl-dot"></div>
+                            <div class="tl-card">
+                                <span class="tl-year">Intermediate</span>
+                                <h3>Board of Intermediate Education</h3>
+                                <span class="institution">Sri Chaitanya Junior College</span>
+                                <div class="details">
+                                    <span class="score">86.4%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tl-item" data-tl-item data-reveal="slide-left">
+                            <div class="tl-dot"></div>
+                            <div class="tl-card">
+                                <span class="tl-year">Secondary</span>
+                                <h3>Board of Secondary Education</h3>
+                                <span class="institution">Ushodaya High School</span>
+                                <div class="details">
+                                    <span class="score">GPA: 8.2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SKILLS                                       -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="skills" class="corner-squares">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <h2 data-motion-text="words">Skills</h2>
+                <div class="skill-grid bento-grid" data-reveal-group>
+                    <!-- Programming Languages -->
+                    <div class="tilt-card bento-card span-2-col" data-tilt data-reveal-item>
                         <div class="tilt-content">
+                            <span class="card-eyebrow">01</span>
                             <h3>Programming Languages</h3>
                             <div class="card-inner">
-                                <p>Python, Java, C</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">Java</span>
+                                    <span class="skill-tag">C</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Tilt Card: AI & Automation -->
-                    <div class="tilt-card bento-card span-2-row" data-tilt>
+                    <!-- AI & Automation -->
+                    <div class="tilt-card bento-card span-2-row" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <h3>AI & Automation</h3>
+                            <span class="card-eyebrow">02</span>
+                            <h3>AI &amp; Automation</h3>
                             <div class="card-inner">
-                                <p>AI Agents</p>
-                                <p>Agentic AI</p>
-                                <p>LLM Applications</p>
-                                <p>Workflow Automation</p>
-                                <p>Prompt Engineering</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag accent-blue">AI Agents</span>
+                                    <span class="skill-tag accent-blue">Agentic AI</span>
+                                    <span class="skill-tag accent-purple">LLM Apps</span>
+                                    <span class="skill-tag accent-purple">Workflow Automation</span>
+                                    <span class="skill-tag">Prompt Engineering</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Tilt Card: Frontend -->
-                    <div class="tilt-card bento-card" data-tilt>
+                    <!-- Frontend -->
+                    <div class="tilt-card bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
+                            <span class="card-eyebrow">03</span>
                             <h3>Frontend</h3>
                             <div class="card-inner">
-                                <p>React.js, Next.js</p>
-                                <p>JavaScript</p>
-                                <p>HTML5, CSS3</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag accent-green">React.js</span>
+                                    <span class="skill-tag accent-green">Next.js</span>
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">HTML5 · CSS3</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Tilt Card: Cloud & Tools -->
-                    <div class="tilt-card bento-card" data-tilt>
+                    <!-- Cloud & Tools -->
+                    <div class="tilt-card bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <h3>Cloud & Tools</h3>
+                            <span class="card-eyebrow">04</span>
+                            <h3>Cloud &amp; Tools</h3>
                             <div class="card-inner">
-                                <p>AWS EC2, Vercel</p>
-                                <p>MySQL</p>
-                                <p>Git, GitHub</p>
-                                <p>REST APIs, VS Code</p>
+                                <div class="skill-tags">
+                                    <span class="skill-tag accent-gold">AWS EC2</span>
+                                    <span class="skill-tag accent-gold">Vercel</span>
+                                    <span class="skill-tag">MySQL</span>
+                                    <span class="skill-tag">Git · GitHub</span>
+                                    <span class="skill-tag">REST APIs</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Projects -->
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- PROJECTS — 3D COVERFLOW FEATURED CAROUSEL    -->
+            <!-- ═══════════════════════════════════════════ -->
             <section id="projects">
-                <h2>Featured Projects</h2>
-                <div class="project-list bento-grid">
-                    <!-- Project 1 -->
-                    <div class="tilt-card bento-card span-2-col" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="http://117.213.202.136/bos/" target="_blank" rel="noopener noreferrer">Best Outgoing Student Management System</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · MySQL · AWS EC2 · REST APIs</span></div>
-                            <p class="card-desc">Institutional platform for Sri Vasavi Engineering College that automates evaluation and selection for the Best Outgoing Student Award based on academics, achievements, and extracurricular activities.</p>
-                        </div>
-                    </div>
-                    <!-- Project 2 -->
-                    <div class="tilt-card bento-card" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="https://nyayavyavasth.vercel.app" target="_blank" rel="noopener noreferrer">NyayaVyavasth</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · AWS EC2 · AI</span></div>
-                            <p class="card-desc">AI-powered legal assistant designed to simplify legal information and make legal knowledge accessible through intelligent AI-driven responses.</p>
-                        </div>
-                    </div>
-                    <!-- Project 3 -->
-                    <div class="tilt-card bento-card" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="https://arogyaraksha-one.vercel.app" target="_blank" rel="noopener noreferrer">ArogyaRaksha</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · JavaScript · APIs</span></div>
-                            <p class="card-desc">Healthcare management platform improving accessibility to healthcare information and digital healthcare services.</p>
-                        </div>
-                    </div>
-                    <!-- Project 4 -->
-                    <div class="tilt-card bento-card" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="http://samplecontributors.vercel.app/" target="_blank" rel="noopener noreferrer">Sample Contributors</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · JavaScript · Vercel</span></div>
-                            <p class="card-desc">Contributor management platform designed to encourage collaboration and community-driven development.</p>
-                        </div>
-                    </div>
-                    <!-- Project 5 -->
-                    <div class="tilt-card bento-card span-2-col" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="https://denami.vercel.app/" target="_blank" rel="noopener noreferrer">Denami</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · Tailwind CSS · Vercel</span></div>
-                            <p class="card-desc">Modern web application focused on responsive design, user experience, performance, and professional presentation.</p>
+                <div class="carousel-header corner-squares">
+                    <span class="corner top-left"></span>
+                    <span class="corner top-right"></span>
+                    <div class="carousel-title-row">
+                        <div>
+                            <h2 data-motion-text="words">Featured Projects</h2>
+                            <p class="carousel-hint">Explore interactive project showcases</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Other Projects -->
-                <h2 style="margin-top: 3rem;">Other Projects</h2>
-                <div class="project-list bento-grid">
-                    <!-- AnswerHub -->
-                    <div class="tilt-card bento-card span-2-col" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="https://answerhub-zeta.vercel.app" target="_blank" rel="noopener noreferrer">AnswerHub</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js</span></div>
-                            <p class="card-desc">Community-driven Q&amp;A platform for knowledge sharing and discussions.</p>
-                        </div>
-                    </div>
-                    <!-- Portfolio Website -->
-                    <div class="tilt-card bento-card span-2-col" data-tilt>
-                        <div class="tilt-content">
-                            <h3><a href="https://devendraport.vercel.app" target="_blank" rel="noopener noreferrer">Portfolio Website</a></h3>
-                            <div class="tags"><span class="in-progress">React.js · Next.js · Vercel</span></div>
-                            <p class="card-desc">Personal portfolio showcasing projects, skills, certifications, and achievements.</p>
-                        </div>
-                    </div>
+                <!-- 3D Coverflow Stage -->
+                <div class="coverflow-stage" id="coverflow-stage">
+                    <!-- Overlay Navigation Arrows -->
+                    <button id="coverflow-prev" class="coverflow-arrow prev" aria-label="Previous Project">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button id="coverflow-next" class="coverflow-arrow next" aria-label="Next Project">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+
+                    <div class="coverflow-track" id="coverflow-track">
+
+                        <!-- Slide 1 -->
+                        <article class="coverflow-card active" data-index="0">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">INSTITUTIONAL RECOGNITION HUB</span>
+                                    <h3 class="card-heading">BEST OUTGOING STUDENT PORTAL</h3>
+                                    <p class="card-text">A student achievement and recognition platform designed to manage and showcase outstanding student performance, academic rankings, and extracurricular awards for Sri Vasavi Engineering College.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">PORTAL</span>
+                                        <span class="pill pill-red">MANAGEMENT</span>
+                                        <span class="pill">REACT.JS</span>
+                                        <span class="pill">AWS EC2</span>
+                                    </div>
+                                    <a class="card-link" href="http://117.213.202.136/bos/" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_bos.png" alt="Best Outgoing Student Management System" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 2 -->
+                        <article class="coverflow-card" data-index="1">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">AI LEGAL AWARENESS PLATFORM</span>
+                                    <h3 class="card-heading">NYAYA VYAVASTHA</h3>
+                                    <p class="card-text">An AI-powered legal assistant and legal awareness web platform designed to simplify legal information for users, providing quick answers, document insights, and legal resources.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">AI ASSISTANT</span>
+                                        <span class="pill pill-red">LEGAL TECH</span>
+                                        <span class="pill">NEXT.JS</span>
+                                        <span class="pill">AWS EC2</span>
+                                    </div>
+                                    <a class="card-link" href="https://nyayavyavasth.vercel.app" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_nyaya.png" alt="NyayaVyavasth" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 3 -->
+                        <article class="coverflow-card" data-index="2">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">HEALTHCARE & WELLNESS GRID</span>
+                                    <h3 class="card-heading">AROGYA RAKSHA</h3>
+                                    <p class="card-text">A comprehensive digital health management portal aimed at enhancing accessibility to medical guidance, health tracking, and digital healthcare resources across underserved communities.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">HEALTHCARE</span>
+                                        <span class="pill pill-red">SERVICES</span>
+                                        <span class="pill">REACT.JS</span>
+                                        <span class="pill">APIS</span>
+                                    </div>
+                                    <a class="card-link" href="https://arogyaraksha-one.vercel.app" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_arogya.png" alt="ArogyaRaksha" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 4 -->
+                        <article class="coverflow-card" data-index="3">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">OPEN SOURCE DEVELOPER HUB</span>
+                                    <h3 class="card-heading">SAMPLE CONTRIBUTORS</h3>
+                                    <p class="card-text">A contributor management and collaboration engine engineered to track community participation, gamify open source projects, and streamline team workflows.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">OPEN SOURCE</span>
+                                        <span class="pill pill-red">COMMUNITY</span>
+                                        <span class="pill">NEXT.JS</span>
+                                        <span class="pill">VERCEL</span>
+                                    </div>
+                                    <a class="card-link" href="http://samplecontributors.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_contributors.png" alt="Sample Contributors" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 5 -->
+                        <article class="coverflow-card" data-index="4">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">MODERN PRODUCT SHOWCASE</span>
+                                    <h3 class="card-heading">DENAMI PLATFORM</h3>
+                                    <p class="card-text">Next-generation digital experience application focusing on fluid UI interactions, responsive web engineering, high performance, and visual elegance.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">WEB APP</span>
+                                        <span class="pill pill-red">DESIGN SYSTEM</span>
+                                        <span class="pill">TAILWIND</span>
+                                        <span class="pill">VERCEL</span>
+                                    </div>
+                                    <a class="card-link" href="https://denami.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_denami.png" alt="Denami" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 6 -->
+                        <article class="coverflow-card" data-index="5">
+                            <div class="card-split">
+                                <div class="card-left">
+                                    <span class="card-eyebrow">COMMUNITY DISCUSSION ENGINE</span>
+                                    <h3 class="card-heading">ANSWERHUB</h3>
+                                    <p class="card-text">A community-driven Q&A portal built for technical knowledge sharing, collaborative troubleshooting, and interactive discussions across student groups.</p>
+                                    <div class="card-pills">
+                                        <span class="pill pill-red">COMMUNITY</span>
+                                        <span class="pill pill-red">Q&amp;A</span>
+                                        <span class="pill">REACT.JS</span>
+                                        <span class="pill">NEXT.JS</span>
+                                    </div>
+                                    <a class="card-link" href="https://answerhub-zeta.vercel.app" target="_blank" rel="noopener noreferrer">
+                                        Launch Site
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                    </a>
+                                </div>
+                                <div class="card-right">
+                                    <div class="preview-frame">
+                                        <span class="live-pill">LIVE</span>
+                                        <img src="/project_answerhub.png" alt="AnswerHub" class="preview-img" />
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div><!-- /coverflow-track -->
+
+                    <!-- Coverflow Indicators -->
+                    <div class="coverflow-dots" id="coverflow-dots"></div>
                 </div>
             </section>
 
-            <!-- Certifications -->
-            <section id="certifications">
-                <h2>Certifications</h2>
-                <div class="cert-grid bento-grid">
-                    <!-- Cert 1 -->
-                    <div class="tilt-card cert-box bento-card span-2-col" data-tilt>
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- CERTIFICATIONS                              -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="certifications" class="corner-squares">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <h2 data-motion-text="words">Certifications</h2>
+                <div class="cert-grid bento-grid" data-reveal-group>
+                    <div class="tilt-card cert-box bento-card span-2-col" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">AI Agents</span>
                             <h3>Hugging Face Agents Course</h3>
                             <span class="org">Hugging Face</span>
                         </div>
                     </div>
-
-                    <!-- Cert 2 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">Developer</span>
                             <h3>Google ADK Crash Course</h3>
                             <span class="org">Google</span>
                         </div>
                     </div>
-
-                    <!-- Cert 3 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
-                            <h3>LangChain Deep Agents Course</h3>
+                            <span class="cert-type">AI Framework</span>
+                            <h3>LangChain Deep Agents</h3>
                             <span class="org">LangChain</span>
                         </div>
                     </div>
-
-                    <!-- Cert 4 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">Cloud Analytics</span>
                             <h3>Oracle Cloud Analytics</h3>
                             <span class="org">Oracle</span>
                         </div>
                     </div>
-
-                    <!-- Cert 5 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">IoT</span>
                             <h3>NPTEL Internet of Things</h3>
                             <span class="org">NPTEL</span>
                         </div>
                     </div>
-
-                    <!-- Cert 6 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">Data</span>
                             <h3>Power BI Workshop</h3>
                             <span class="org">Microsoft</span>
                         </div>
                     </div>
-
-                    <!-- Cert 7 -->
-                    <div class="tilt-card cert-box bento-card" data-tilt>
+                    <div class="tilt-card cert-box bento-card" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">Productivity</span>
                             <h3>Microsoft Excel</h3>
                             <span class="org">Microsoft</span>
                         </div>
                     </div>
-
-                    <!-- Cert 8 -->
-                    <div class="tilt-card cert-box bento-card span-2-col" data-tilt>
+                    <div class="tilt-card cert-box bento-card span-2-col" data-tilt data-reveal-item>
                         <div class="tilt-content">
-                            <span class="cert-type">Certification</span>
+                            <span class="cert-type">Systems</span>
                             <h3>C Programming Language</h3>
                             <span class="org">Academic</span>
                         </div>
@@ -305,57 +558,51 @@
                 </div>
             </section>
 
-            <!-- Contact / Connect -->
-            <section id="contact">
-                <h2>Connect</h2>
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- CONTACT / CONNECT                           -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section id="contact" class="corner-squares">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+
+                <h2 data-motion-text="words">Connect</h2>
                 <div class="connect-grid">
-                    <!-- Email -->
-                    <a href="mailto:devendrasagar0988@gmail.com" class="connect-box" data-magnetic>
+                    <a href="mailto:devendrasagar0988@gmail.com" class="connect-box" data-magnetic data-reveal="scale">
                         <div class="icon">
                             <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                             </svg>
                         </div>
                         <span>Email</span>
                     </a>
-
-                    <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/ibba-devendra-sagar-22917b353" target="_blank"
-                        class="connect-box" data-magnetic>
+                        class="connect-box" data-magnetic data-reveal="scale" data-reveal-delay="0.06">
                         <div class="icon">
                             <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                             </svg>
                         </div>
                         <span>LinkedIn</span>
                     </a>
-
-                    <!-- GitHub -->
-                    <a href="https://github.com/Devendra1306" target="_blank" class="connect-box" data-magnetic>
+                    <a href="https://github.com/Devendra1306" target="_blank" class="connect-box" data-magnetic data-reveal="scale" data-reveal-delay="0.12">
                         <div class="icon">
                             <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                             </svg>
                         </div>
                         <span>GitHub</span>
                     </a>
-
-                    <!-- Phone -->
-                    <a href="tel:+919505215187" class="connect-box" data-magnetic>
+                    <a href="tel:+919505215187" class="connect-box" data-magnetic data-reveal="scale" data-reveal-delay="0.18">
                         <div class="icon">
                             <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 1.25 0 2.45.2 3.57.57.35.13.41.52.24 1.02l-2.2 2.2z" />
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 1.25 0 2.45.2 3.57.57.35.13.41.52.24 1.02l-2.2 2.2z" />
                             </svg>
                         </div>
                         <span>Call Me</span>
                     </a>
-
-                    <!-- Portfolio -->
-                    <a href="https://devendraport.vercel.app" target="_blank" class="connect-box" data-magnetic>
+                    <a href="https://devendraport.vercel.app" target="_blank" class="connect-box" data-magnetic data-reveal="scale" data-reveal-delay="0.24">
                         <div class="icon">
                             <svg viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
@@ -365,6 +612,35 @@
                     </a>
                 </div>
             </section>
+
+            <!-- Mission Control Footer -->
+            <footer id="mission-footer">
+                <div class="footer-hud">
+                    <div class="hud-panel">
+                        <span class="hud-label">SYSTEM STATUS:</span>
+                        <span class="hud-value status-online"><span class="blink-dot"></span> ONLINE</span>
+                    </div>
+                    <div class="hud-panel">
+                        <span class="hud-label">SYNC_PORT:</span>
+                        <span class="hud-value">JNTUK_MAIN_GRID</span>
+                    </div>
+                    <div class="hud-panel">
+                        <span class="hud-label">AVAILABILITY:</span>
+                        <span class="hud-value val-green">OPEN_FOR_WORK</span>
+                    </div>
+                    <div class="hud-panel">
+                        <span class="hud-label">COORD_LOC:</span>
+                        <span class="hud-value">INDIA // UTC+5:30</span>
+                    </div>
+                    <div class="hud-panel">
+                        <span class="hud-label">COMMS_SIGNAL:</span>
+                        <span class="hud-value val-cyan">100% SECURE</span>
+                    </div>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy; 2026 // IBBA DEVENDRA SAGAR // ALL SYSTEMS OPERATIONAL.</p>
+                </div>
+            </footer>
 
         </div>
     </main>
