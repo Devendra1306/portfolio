@@ -1,7 +1,7 @@
 {
-  "name": "Ibba Devendra Sagar - Portfolio",
-  "short_name": "IDS Portfolio",
-  "description": "Portfolio of Ibba Devendra Sagar — AI Undergraduate, Full-Stack Developer, and Agentic AI Builder.",
+  "name": "Devendra Sagar - Portfolio",
+  "short_name": "Devendra Sagar",
+  "description": "Official Portfolio of Devendra Sagar (Ibba Devendra Sagar) — B.Tech Artificial Intelligence Engineer, Agentic AI Builder, and Full-Stack Developer.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#060814",
