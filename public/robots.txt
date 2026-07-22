@@ -1,0 +1,6 @@
+# Robots.txt for Ibba Devendra Sagar Portfolio
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://devendra-sagar.vercel.app/sitemap.xml
