@@ -1,48 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+        http://www.google.com/schemas/sitemap-image/1.1
+        http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
   <url>
-    <loc>https://devendra-sagar.vercel.app/</loc>
+    <loc>https://devendraport.vercel.app/</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
+    <image:image>
+      <image:loc>https://devendraport.vercel.app/project_bos.png</image:loc>
+      <image:title>Devendra Sagar Best Outgoing Student Management System</image:title>
+      <image:caption>Institutional portal built by Devendra Sagar</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://devendraport.vercel.app/project_nyaya.png</image:loc>
+      <image:title>Devendra Sagar NyayaVyavasth AI Legal Assistant</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://devendraport.vercel.app/project_arogya.png</image:loc>
+      <image:title>Devendra Sagar ArogyaRaksha Healthcare Platform</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://devendra-sagar.vercel.app/#about</loc>
+    <loc>https://devendraport.vercel.app/#about</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://devendraport.vercel.app/#education</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://devendra-sagar.vercel.app/#education</loc>
+    <loc>https://devendraport.vercel.app/#skills</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://devendra-sagar.vercel.app/#skills</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://devendra-sagar.vercel.app/#projects</loc>
+    <loc>https://devendraport.vercel.app/#projects</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://devendra-sagar.vercel.app/#certifications</loc>
+    <loc>https://devendraport.vercel.app/#certifications</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://devendraport.vercel.app/#contact</loc>
     <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://devendra-sagar.vercel.app/#contact</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
   </url>
 </urlset>

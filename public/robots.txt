@@ -1,6 +1,10 @@
-# Robots.txt for Ibba Devendra Sagar Portfolio
+# Robots.txt for Devendra Sagar Portfolio (https://devendraport.vercel.app/)
 User-agent: *
 Allow: /
 
+# Disallow non-indexable utility endpoints
+Disallow: /api/
+Disallow: /*.json$
+
 # Sitemaps
-Sitemap: https://devendra-sagar.vercel.app/sitemap.xml
+Sitemap: https://devendraport.vercel.app/sitemap.xml
