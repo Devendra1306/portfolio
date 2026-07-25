@@ -399,6 +399,21 @@ class App {
 
         let activeIndex = 0;
         const total = cards.length;
+        let autoplayTimer = null;
+
+        const startAutoplay = () => {
+            stopAutoplay();
+            autoplayTimer = setInterval(() => {
+                updateCoverflow(activeIndex + 1);
+            }, 5000);
+        };
+
+        const stopAutoplay = () => {
+            if (autoplayTimer) {
+                clearInterval(autoplayTimer);
+                autoplayTimer = null;
+            }
+        };
 
         // Build Dots
         if (dotsContainer) {
@@ -406,12 +421,12 @@ class App {
             cards.forEach((_, i) => {
                 const dot = document.createElement('div');
                 dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                dot.addEventListener('click', () => updateCoverflow(i));
+                dot.addEventListener('click', () => updateCoverflow(i, true));
                 dotsContainer.appendChild(dot);
             });
         }
 
-        const updateCoverflow = (newIndex) => {
+        const updateCoverflow = (newIndex, manual = false) => {
             activeIndex = (newIndex + total) % total;
             const prevIndex = (activeIndex - 1 + total) % total;
             const nextIndex = (activeIndex + 1) % total;
@@ -435,6 +450,10 @@ class App {
                     dot.classList.toggle('active', i === activeIndex);
                 });
             }
+
+            if (manual) {
+                startAutoplay();
+            }
         };
 
         // Attach Card Click Events for direct selection
@@ -443,14 +462,14 @@ class App {
                 // If clicking link inside, allow navigation
                 if (e.target.closest('a')) return;
                 if (i !== activeIndex) {
-                    updateCoverflow(i);
+                    updateCoverflow(i, true);
                 }
             });
         });
 
         // Prev / Next Buttons
-        if (prevBtn) prevBtn.addEventListener('click', () => updateCoverflow(activeIndex - 1));
-        if (nextBtn) nextBtn.addEventListener('click', () => updateCoverflow(activeIndex + 1));
+        if (prevBtn) prevBtn.addEventListener('click', () => updateCoverflow(activeIndex - 1, true));
+        if (nextBtn) nextBtn.addEventListener('click', () => updateCoverflow(activeIndex + 1, true));
 
         // Touch Swipe Gesture Handling
         let touchStartX = 0;
@@ -463,15 +482,20 @@ class App {
             const diffX = touchStartX - touchEndX;
             if (Math.abs(diffX) > 40) {
                 if (diffX > 0) {
-                    updateCoverflow(activeIndex + 1);
+                    updateCoverflow(activeIndex + 1, true);
                 } else {
-                    updateCoverflow(activeIndex - 1);
+                    updateCoverflow(activeIndex - 1, true);
                 }
             }
         }, { passive: true });
 
+        // Hover listeners for pause/resume of autoplay
+        stage.addEventListener('mouseenter', stopAutoplay);
+        stage.addEventListener('mouseleave', startAutoplay);
+
         // Initial setup
         updateCoverflow(0);
+        startAutoplay();
     }
 
     _initScrollTimeline(reduceMotion) {
