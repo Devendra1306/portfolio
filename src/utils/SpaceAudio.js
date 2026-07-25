@@ -28,16 +28,26 @@ class SpaceAudio {
             this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
             this.masterGain.connect(this.ctx.destination);
 
-            // Filter for warm space ambient resonance
+            // Filter for warm space cinematic drone
             const filter = this.ctx.createBiquadFilter();
             filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(800, this.ctx.currentTime); // Crisp, audible frequency range
-            filter.Q.setValueAtTime(2, this.ctx.currentTime);
+            filter.frequency.setValueAtTime(400, this.ctx.currentTime); // Deep, muffled frequency
+            filter.Q.setValueAtTime(3, this.ctx.currentTime);
+            
+            // Sub filter for extreme lows
+            const subFilter = this.ctx.createBiquadFilter();
+            subFilter.type = 'lowpass';
+            subFilter.frequency.setValueAtTime(80, this.ctx.currentTime);
+            subFilter.Q.setValueAtTime(1, this.ctx.currentTime);
+            
             filter.connect(this.masterGain);
+            subFilter.connect(this.masterGain);
 
-            // Space Ambient Chord (A minor 9th: A2=110Hz, E3=164.8Hz, A3=220Hz, C4=261.6Hz, E4=329.6Hz)
-            const freqs = [110, 164.8, 220, 261.6, 329.6];
-            const types = ['sine', 'triangle', 'sine', 'triangle', 'sine'];
+            // Cinematic Drone Frequencies (Deep C root: C2=65.41Hz, G2=98Hz, C3=130.81Hz, with subtle evolving high pads)
+            // Adding a high ethereal pad (C5=523.25, G5=783.99)
+            const freqs = [65.41, 98.00, 130.81, 523.25, 783.99];
+            const types = ['sine', 'triangle', 'sawtooth', 'sine', 'sine'];
+            const volumes = [0.15, 0.08, 0.03, 0.02, 0.015];
 
             this.oscillators = freqs.map((freq, index) => {
                 const osc = this.ctx.createOscillator();
@@ -46,25 +56,44 @@ class SpaceAudio {
                 osc.type = types[index];
                 osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
 
-                // Subtle detuning for lush stereo chorus effect
-                osc.detune.setValueAtTime((index - 2) * 5, this.ctx.currentTime);
+                // Deep detuning for vastness
+                osc.detune.setValueAtTime((index - 2) * 8, this.ctx.currentTime);
 
-                gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+                gain.gain.setValueAtTime(volumes[index], this.ctx.currentTime);
                 osc.connect(gain);
-                gain.connect(filter);
+                
+                // Route lowest freq to subFilter, others to main filter
+                if (index === 0) {
+                    gain.connect(subFilter);
+                } else {
+                    gain.connect(filter);
+                }
+                
                 osc.start();
                 return osc;
             });
 
-            // LFO for slow ambient filter pulsing (space atmosphere movement)
+            // LFO 1: Slow breathing filter sweep (Vast space feeling)
             this.lfo = this.ctx.createOscillator();
             const lfoGain = this.ctx.createGain();
-            this.lfo.frequency.setValueAtTime(0.2, this.ctx.currentTime); // 0.2 Hz slow pulse
-            lfoGain.gain.setValueAtTime(200, this.ctx.currentTime);
+            this.lfo.type = 'sine';
+            this.lfo.frequency.setValueAtTime(0.05, this.ctx.currentTime); // 0.05 Hz very slow
+            lfoGain.gain.setValueAtTime(300, this.ctx.currentTime);
 
             this.lfo.connect(lfoGain);
             lfoGain.connect(filter.frequency);
             this.lfo.start();
+            
+            // LFO 2: Twinkling / subtle shimmer on higher pads
+            const shimmerLfo = this.ctx.createOscillator();
+            const shimmerGain = this.ctx.createGain();
+            shimmerLfo.type = 'triangle';
+            shimmerLfo.frequency.setValueAtTime(0.3, this.ctx.currentTime);
+            shimmerGain.gain.setValueAtTime(15, this.ctx.currentTime);
+            shimmerLfo.connect(shimmerGain);
+            shimmerGain.connect(this.oscillators[3].detune); // Modulate high C
+            shimmerLfo.start();
+            this.oscillators.push(shimmerLfo); // keep track to stop if needed
 
             this.initialized = true;
         } catch (e) {
